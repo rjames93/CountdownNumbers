@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import random
+from solver import findSolutions
 
 LargeNumbers = [ 25, 50, 75, 100 ]
 SmallNumbers = [ 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10 ]
@@ -42,11 +43,6 @@ def generateTarget():
     return random.randrange(100,999)
 target = generateTarget()
 
-# This function takes a target number and 6 card numbers and finds all the solutions
-def findSolutions(target, combination):
-    solutions = []
-    # Not done yet 
-    return solutions
 
 # This function runs through all of the card combinations it is passed and returns the number of them that can solve for the specified target value
 def bruteForce(target, availableCombinations):
@@ -54,8 +50,6 @@ def bruteForce(target, availableCombinations):
     for combination in availableCombinations:
         validsolutions.extend(findSolutions(target, combination))
     return validsolutions
-
-
 
 solutions = bruteForce(target, cardCombinations)
 
