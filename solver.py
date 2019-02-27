@@ -42,21 +42,26 @@ def recurseSolve(target, numberCards, solutionChain):
                 newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "+" + str(pair[1]) + ")"
                 recurseSolve(target, nextCards + [pair[0]+pair[1]], newSolutionChain)
                 # Perform the Multiplicative Operation which is also independent
-                newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "*" + str(pair[1]) + ")"
-                recurseSolve(target, nextCards + [pair[0]*pair[1]], newSolutionChain)
+                # Check that either value isn't equal to 1 first (optimisation check)
+                if ( pair[0] or pair[1] != 1 ):
+                    newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "*" + str(pair[1]) + ")"
+                    recurseSolve(target, nextCards + [pair[0]*pair[1]], newSolutionChain)
+
                 # Check divisions don't create floats and do both orders
-                if( isinstance((pair[0] / pair[1]), float) == False ):
-                    newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "/" + str(pair[1]) + ")"
-                    recurseSolve(target, nextCards + [pair[0]/pair[1]], newSolutionChain)
-                if( isinstance((pair[1] / pair[0]), float) == False ):
-                    newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[1]) + "/" + str(pair[0]) + ")"
-                    recurseSolve(target, nextCards + [pair[1]/pair[0]], newSolutionChain)
-                # Now do subtraction both orders after checking that the result is non negative
-                if( (pair[0] - pair[1] > 0) ):
-                    newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "-" + str(pair[1]) + ")"
-                    recurseSolve(target, nextCards + [pair[0]-pair[1]], newSolutionChain)
-                if( (pair[1] - pair[0] > 0) ):
-                    newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[1]) + "-" + str(pair[0]) + ")"
-                    recurseSolve(target, nextCards + [pair[1]-pair[0]], newSolutionChain)
+                if( pair[0] or pair[1] != 1 ): # Optimisation check not to bother with pointless branching operations
+                    if( isinstance((pair[0] / pair[1]), float) == False ):
+                        newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "/" + str(pair[1]) + ")"
+                        recurseSolve(target, nextCards + [pair[0]/pair[1]], newSolutionChain)
+                    if( isinstance((pair[1] / pair[0]), float) == False ):
+                        newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[1]) + "/" + str(pair[0]) + ")"
+                        recurseSolve(target, nextCards + [pair[1]/pair[0]], newSolutionChain)
+                if( (pair[0] != pair[1] ) ): # Optimisation check to not bother with dividing by yourself 
+                    # Now do subtraction both orders after checking that the result is non negative
+                    if( (pair[0] - pair[1] > 0) ):
+                        newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "-" + str(pair[1]) + ")"
+                        recurseSolve(target, nextCards + [pair[0]-pair[1]], newSolutionChain)
+                    if( (pair[1] - pair[0] > 0) ):
+                        newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[1]) + "-" + str(pair[0]) + ")"
+                        recurseSolve(target, nextCards + [pair[1]-pair[0]], newSolutionChain)
     return
 
