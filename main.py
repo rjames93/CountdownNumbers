@@ -32,4 +32,4 @@ def bruteForce(target, availableCombinations):
 
 solutions = bruteForce(target, cardCombinations)
 
-print(solutions)
+print(len(solutions))
