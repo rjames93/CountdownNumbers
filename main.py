@@ -1,31 +1,10 @@
 #!/usr/bin/python3
 
 import random
-from solver import findSolutions
+from solver import findSolutions, combinations
 
 LargeNumbers = [ 25, 50, 75, 100 ]
 SmallNumbers = [ 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10 ]
-
-# Ahahahaha stack overflow I love you soo much.
-def combinations(iterable, r):
-    # combinations('ABCD', 2) --> AB AC AD BC BD CD
-    # combinations(range(4), 3) --> 012 013 023 123
-    pool = tuple(iterable)
-    n = len(pool)
-    if r > n:
-        return
-    indices = list(range(r))
-    yield tuple(pool[i] for i in indices)
-    while True:
-        for i in reversed(range(r)):
-            if indices[i] != i + n - r:
-                break
-        else:
-            return
-        indices[i] += 1
-        for j in range(i+1, r):
-            indices[j] = indices[j-1] + 1
-        yield tuple(pool[i] for i in indices)
 
 # Append the number lists
 availableCards = LargeNumbers +  SmallNumbers
@@ -43,7 +22,7 @@ def generateTarget():
     return random.randrange(100,999)
 target = generateTarget()
 
-
+target = 100
 # This function runs through all of the card combinations it is passed and returns the number of them that can solve for the specified target value
 def bruteForce(target, availableCombinations):
     validsolutions = []
