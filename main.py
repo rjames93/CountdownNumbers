@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import random
+from itertools import permutations
 from solver import findSolutions, combinations
 
 LargeNumbers = [ 25, 50, 75, 100 ]
@@ -24,6 +25,7 @@ target = generateTarget()
 
 target = 987
 
-print(findSolutions(target, cardCombinations[0]))
+for cardCombo in cardCombinations:
+    solutions = findSolutions(target, cardCombo)
 
-
+print(solutions)

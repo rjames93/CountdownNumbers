@@ -21,18 +21,18 @@ def combinations(iterable, r):
             indices[j] = indices[j-1] + 1
         yield tuple(pool[i] for i in indices)
 
-globalsolutions = []
 
 # This function takes a target number and 6 card numbers and finds all the solutions
 def findSolutions(target, numberCards):
     solutions = []
-    solutions.append(recurseSolve(target, list(numberCards),""))
+    # solutions.append(recurseSolve(target, list(numberCards),""))
+    #solutions.append(postfixSolver(target,numberCards))
+    solutions.append(anotherRecursiveSolve(target, numberCards))
     return solutions
 
 def recurseSolve(target, numberCards, solutionChain):
     if(target in numberCards):
         solutionChain += "; = " + str(target)
-        globalsolutions.append(solutionChain)
         #print(solutionChain)
         return solutionChain
     elif( all (x > 0 for x in numberCards)):
@@ -59,7 +59,7 @@ def recurseSolve(target, numberCards, solutionChain):
                     if( isinstance((pair[1] / pair[0]), float) == False ):
                         newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[1]) + "/" + str(pair[0]) + ")"
                         recurseSolve(target, nextCards + [pair[1]/pair[0]], newSolutionChain)
-                if( (pair[0] != pair[1] ) ): # Optimisation check to not bother with dividing by yourself 
+                if( (pair[0] != pair[1] ) ): # Optimisation check to not bother with dividing by yourself
                     # Now do subtraction both orders after checking that the result is non negative
                     if( (pair[0] - pair[1] > 0) ):
                         newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[0]) + "-" + str(pair[1]) + ")"
@@ -70,8 +70,41 @@ def recurseSolve(target, numberCards, solutionChain):
     return
 
 
+add = lambda a,b: a+b
+sub = lambda a,b: a-b
+mul = lambda a,b: a*b
+div = lambda a,b: a/b if a % b == 0 else 0/0
+operations = [ (add, '+'), (sub, '-'), (mul, '*'), (div, '/')]
 
-def postfixSolver(target, numberCards):
-    
-    perms = list(permututations(numberCards))
-    print( perms )
+def Evaluate(stack):
+    try:
+        total = 0
+        lastOper = add
+        for item in stack:
+            if type(item) is int:
+                total = lastOper(total, item)
+            else:
+                lastOper = item[0]
+        return total
+    except:
+        return 0
+
+def ReprStack(stack, target):
+    reps = [ str(item) if type(item) is int else item[1] for item in stack ]
+    return ' '.join(reps)+' = ' + str(target)
+
+def anotherRecursiveSolve(target, numbers):
+    def Recurse(stack, nums):
+        for n in range(len(nums)):
+            stack.append( nums[n] )
+            remaining = nums[:n] + nums[n+1:]
+            if Evaluate(stack) == target:
+                print(ReprStack(stack,target))
+            if len(remaining) > 0:
+                for op in operations:
+                    stack.append(op)
+                    stack = Recurse(stack, remaining)
+                    stack = stack[:-1]
+            stack = stack[:-1]
+        return stack
+    Recurse([], numbers)
