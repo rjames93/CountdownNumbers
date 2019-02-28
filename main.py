@@ -2,6 +2,8 @@
 
 import random
 from itertools import permutations
+from joblib import Parallel, delayed
+import multiprocessing
 from solver import findSolutions, combinations
 
 LargeNumbers = [ 25, 50, 75, 100 ]
@@ -25,13 +27,16 @@ target = generateTarget()
 
 target = 987
 
-numberofSolutionsPerCombinationList = []
-for cardCombo in cardCombinations:
-    solutions = findSolutions(target, cardCombo)[0]
-    if(solutions == []):
-        numberofSolutionsPerCombinationList.append([cardCombo,0])
-    else:
-        print([cardCombo,len(solutions[0])])
-        numberofSolutionsPerCombinationList.append([cardCombo,len(solutions[0])])
+num_cores = multiprocessing.cpu_count()
+
+numberofSolutionsPerCombinationList = Parallel(n_jobs=num_cores)(delayed(findSolutions)(target,cardCombo) for cardCombo in cardCombinations)
+
+# for cardCombo in cardCombinations:
+#     solutions = findSolutions(target, cardCombo)[0]
+#     if(solutions == []):
+#         numberofSolutionsPerCombinationList.append([cardCombo,0])
+#     else:
+#         print([cardCombo,len(solutions[0])])
+#         numberofSolutionsPerCombinationList.append([cardCombo,len(solutions[0])])
 
 print(numberofSolutionsPerCombinationList)
