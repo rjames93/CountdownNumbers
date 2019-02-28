@@ -13,7 +13,7 @@ availableCards = LargeNumbers +  SmallNumbers
 orderedCombinations = list(combinations(availableCards, 6))
 
 # Remove Duplicate Number Combinations
-cardCombinations = set(orderedCombinations)
+cardCombinations = list(set(orderedCombinations))
 print("Number of Unique Combinations: " , len(cardCombinations))
 
 # Write a function that generates a random number between 100 and 999 (simples)
@@ -22,14 +22,8 @@ def generateTarget():
     return random.randrange(100,999)
 target = generateTarget()
 
-target = 100
-# This function runs through all of the card combinations it is passed and returns the number of them that can solve for the specified target value
-def bruteForce(target, availableCombinations):
-    validsolutions = []
-    for combination in availableCombinations:
-        validsolutions.extend(findSolutions(target, combination))
-    return validsolutions
+target = 987
 
-solutions = bruteForce(target, cardCombinations)
+print(findSolutions(target, cardCombinations[0]))
 
-print(len(solutions))
+

@@ -1,3 +1,5 @@
+from itertools import permutations
+
 # Ahahahaha stack overflow I love you soo much.
 def combinations(iterable, r):
     # combinations('ABCD', 2) --> AB AC AD BC BD CD
@@ -19,6 +21,7 @@ def combinations(iterable, r):
             indices[j] = indices[j-1] + 1
         yield tuple(pool[i] for i in indices)
 
+globalsolutions = []
 
 # This function takes a target number and 6 card numbers and finds all the solutions
 def findSolutions(target, numberCards):
@@ -29,6 +32,7 @@ def findSolutions(target, numberCards):
 def recurseSolve(target, numberCards, solutionChain):
     if(target in numberCards):
         solutionChain += "; = " + str(target)
+        globalsolutions.append(solutionChain)
         #print(solutionChain)
         return solutionChain
     elif( all (x > 0 for x in numberCards)):
@@ -64,3 +68,10 @@ def recurseSolve(target, numberCards, solutionChain):
                         newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[1]) + "-" + str(pair[0]) + ")"
                         recurseSolve(target, nextCards + [pair[1]-pair[0]], newSolutionChain)
     return
+
+
+
+def postfixSolver(target, numberCards):
+    
+    perms = list(permututations(numberCards))
+    print( perms )
