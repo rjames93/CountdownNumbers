@@ -25,7 +25,13 @@ target = generateTarget()
 
 target = 987
 
+numberofSolutionsPerCombinationList = []
 for cardCombo in cardCombinations:
-    solutions = findSolutions(target, cardCombo)
+    solutions = findSolutions(target, cardCombo)[0]
+    if(solutions == []):
+        numberofSolutionsPerCombinationList.append([cardCombo,0])
+    else:
+        print([cardCombo,len(solutions[0])])
+        numberofSolutionsPerCombinationList.append([cardCombo,len(solutions[0])])
 
-print(solutions)
+print(numberofSolutionsPerCombinationList)

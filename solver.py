@@ -99,7 +99,7 @@ def anotherRecursiveSolve(target, numbers):
             stack.append( nums[n] )
             remaining = nums[:n] + nums[n+1:]
             if Evaluate(stack) == target:
-                print(ReprStack(stack,target))
+                ReprStack(stack,target)
             if len(remaining) > 0:
                 for op in operations:
                     stack.append(op)
@@ -107,4 +107,4 @@ def anotherRecursiveSolve(target, numbers):
                     stack = stack[:-1]
             stack = stack[:-1]
         return stack
-    Recurse([], numbers)
+    return(Recurse([], numbers))
