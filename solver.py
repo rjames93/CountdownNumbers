@@ -64,4 +64,3 @@ def recurseSolve(target, numberCards, solutionChain):
                         newSolutionChain = solutionChain + ";" + str(numberCards) + "->" + "(" + str(pair[1]) + "-" + str(pair[0]) + ")"
                         recurseSolve(target, nextCards + [pair[1]-pair[0]], newSolutionChain)
     return
-
